@@ -1,0 +1,21 @@
+{
+    "name": "cleaniquecoders/packager",
+    "description": "Laravel Standalone Package Creator: Use for Your Laravel Package Developement",
+    "keywords": ["laravel","package"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nasrul Hazim",
+            "email": "nasrulhazim.m@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "CleaniqueCoders\\Console\\": "src/"
+        }
+    },
+    "require": {
+        "symfony/console": "^3.2",
+        "guzzlehttp/guzzle": "^6.2"
+    }
+}
