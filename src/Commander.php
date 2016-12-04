@@ -28,12 +28,12 @@ class Commander extends Command
 
     protected function getQualifiedClassName($package)
     {
-        return $this->cleanupName(ucwords($package));
+        return $this->cleanupName(str_replace(' ', '', ucwords($package)));
     }
 
     protected function getQualifiedNamespace($vendor, $package)
     {
-        return $this->cleanupName(ucwords($vendor)) . '\\' . $this->cleanupName(ucwords($package));
+        return $this->cleanupName(str_replace(' ', '', ucwords($vendor))) . '\\' . $this->cleanupName(str_replace(' ', '', ucwords($package)));
     }
 
     public function getDirectoryName($vendor, $package)
@@ -43,7 +43,7 @@ class Commander extends Command
 
     public function getAutoLoadName($vendor, $package)
     {
-        return $this->cleanupName(ucwords($vendor)) . '\\\\' . $this->cleanupName(ucwords($package)) . '\\\\';
+        return $this->cleanupName(str_replace(' ', '', ucwords($vendor))) . '\\\\' . $this->cleanupName(str_replace(' ', '', ucwords($package))) . '\\\\';
     }
     /**
      * Verify that the application does not already exist.
