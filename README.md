@@ -3,7 +3,7 @@
 ## Installation
 
 ```
-composer require global cleaniquecoders/packager
+composer global require cleaniquecoders/packager
 ```
 
 ## Usage
