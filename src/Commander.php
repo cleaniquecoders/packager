@@ -3,9 +3,18 @@
 namespace CleaniqueCoders\Console;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Filesystem\Filesystem;
 
 class Commander extends Command
 {
+    protected $filesystem;
+
+    public function __construct($name = null)
+    {
+        parent::__construct($name);
+        $this->filesystem = new Filesystem;
+    }
+
     protected function cleanupName($value)
     {
         $value = str_replace(' ', '-', $value); // Replaces all spaces with hyphens.
@@ -24,7 +33,7 @@ class Commander extends Command
 
     protected function getQualifiedNamespace($vendor, $package)
     {
-        return $this->cleanupName(ucwords($vendor)) . '/' . $this->cleanupName(ucwords($package));
+        return $this->cleanupName(ucwords($vendor)) . '\\' . $this->cleanupName(ucwords($package));
     }
 
     public function getDirectoryName($vendor, $package)
@@ -34,7 +43,7 @@ class Commander extends Command
 
     public function getAutoLoadName($vendor, $package)
     {
-        return $this->cleanupName(ucwords($vendor)) . '\\' . $this->cleanupName(ucwords($package)) . '\\';
+        return $this->cleanupName(ucwords($vendor)) . '\\\\' . $this->cleanupName(ucwords($package)) . '\\\\';
     }
     /**
      * Verify that the application does not already exist.

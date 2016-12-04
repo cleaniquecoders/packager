@@ -1,6 +1,6 @@
 {
-    "name": "DummyPackagName",
-    "description": "Built with Packager",
+    "name": "DummyPackageName",
+    "description": "Built with Laravel Standalone Package Creator",
     "license": "MIT",
     "authors": [
         {

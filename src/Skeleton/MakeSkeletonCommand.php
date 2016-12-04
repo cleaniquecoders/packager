@@ -20,7 +20,8 @@ class MakeSkeletonCOmmand extends Commander
             ->setName('skeleton')
             ->setDescription('Create a new Laravel Package')
             ->addArgument('vendor', InputArgument::REQUIRED)
-            ->addArgument('package', InputArgument::REQUIRED);
+            ->addArgument('package', InputArgument::REQUIRED)
+            ->addArgument('path', InputArgument::REQUIRED);
     }
     /**
      * Execute the command.
@@ -31,21 +32,56 @@ class MakeSkeletonCOmmand extends Commander
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if (($input->getArgument('path') == '.')) {
+            throw new RuntimeException('Package cannot be in the Packager directory!');
+        }
+
         $vendor = $input->getArgument('vendor');
         $package = $input->getArgument('package');
-        $directory = getcwd() . DIRECTORY_SEPARATOR . $this->getDirectoryName($vendor, $package);
+        $path = $input->getArgument('path');
+
+        $directory = $path . DIRECTORY_SEPARATOR . $this->getDirectoryName($vendor, $package);
 
         $this->verifyPackageDoesntExist($directory);
 
-        // create directory
-        // copy stubs
-        // update package name
-        // update namespace
-
         $output->writeln('<info>Creating your Laravel Package Skeleton...</info>');
-        $output->writeln('<info>Your qualified package name: ' . $this->getQualifiedName($vendor, $package) . '</info>');
-        $output->writeln('<info>Your qualified class namespace: ' . $this->getQualifiedNamespace($vendor, $package) . '</info>');
-        $output->writeln('<info>Your PSR-4 autoload: ' . $this->getAutoLoadName($vendor, $package) . '</info>');
+
+        $stubsDir = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'stubs';
+        // copy stubs
+        $this->filesystem->mirror($stubsDir, $directory);
+
+        // update package name & autoload
+        $composerJson = $directory . DIRECTORY_SEPARATOR . 'composer.json';
+        file_put_contents($composerJson, str_replace(
+            [
+                "DummyPackageName",
+                "DummyAutoLoad",
+            ],
+            [
+                $this->getQualifiedName($vendor, $package),
+                $this->getAutoLoadName($vendor, $package),
+            ],
+            file_get_contents($composerJson)
+        ));
+
+        // update service provider
+        $dummyProvider = $directory . DIRECTORY_SEPARATOR . 'src/PackagerDummyServiceProvider.php';
+        $packageProvider = $directory . DIRECTORY_SEPARATOR . 'src/' . $this->getQualifiedClassName($package) . 'ServiceProvider.php';
+        $this->filesystem->rename($dummyProvider, $packageProvider, true);
+
+        // update namespace & service provider's class name
+        file_put_contents($packageProvider, str_replace(
+            [
+                "DummyNamespace",
+                "DummyClassName",
+            ],
+            [
+                $this->getQualifiedNamespace($vendor, $package),
+                $this->getQualifiedClassName($package),
+            ],
+            file_get_contents($packageProvider)
+        ));
+
         $output->writeln('<info>Your package directory name: ' . $directory . '</info>');
 
         $output->writeln('<comment>Your Laravel Package Skeleton is ready!</comment>');
