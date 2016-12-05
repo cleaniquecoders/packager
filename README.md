@@ -16,8 +16,16 @@ composer global require cleaniquecoders/packager
 
 ### New Package 
 
+Go to your packages directory development, for instance:
+
 ```
-packager skeleton vendorName packageName /absolute/path/to/packages/
+cd /my/packages/
+```
+
+Then, create a new package skeleton with:
+
+```
+packager skeleton vendorName packageName 
 ```
 
 ## Contributing
@@ -26,7 +34,7 @@ Thank you for considering contributing to the Laravel Standalone Package Creator
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Nasrul Hazim at nasrul@cleaniquecoders.com. All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within Laravel Standalone Package Creator, please send an e-mail to Nasrul Hazim at nasrul@cleaniquecoders.com. All security vulnerabilities will be promptly addressed.
 
 ## License
 
