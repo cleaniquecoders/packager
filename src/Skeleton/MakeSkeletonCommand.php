@@ -21,7 +21,7 @@ class MakeSkeletonCOmmand extends Commander
             ->setDescription('Create a new Laravel Package')
             ->addArgument('vendor', InputArgument::REQUIRED)
             ->addArgument('package', InputArgument::REQUIRED)
-            ->addArgument('path', InputArgument::REQUIRED);
+            ->addArgument('path', InputArgument::OPTIONAL);
     }
     /**
      * Execute the command.
@@ -32,13 +32,10 @@ class MakeSkeletonCOmmand extends Commander
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (($input->getArgument('path') == '.')) {
-            throw new RuntimeException('Package cannot be in the Packager directory!');
-        }
-
         $vendor = $input->getArgument('vendor');
         $package = $input->getArgument('package');
-        $path = $input->getArgument('path');
+        $path = $input->getArgument('path') ? $input->getArgument('path') : getcwd();
+        $path = ($path == '.') ? getcwd() : $path;
 
         $directory = $path . DIRECTORY_SEPARATOR . $this->getDirectoryName($vendor, $package);
 
