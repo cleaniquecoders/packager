@@ -9,4 +9,5 @@ if (file_exists(__DIR__.'/../../autoload.php')) {
 
 $app = new Symfony\Component\Console\Application('Laravel Standalone Package Creator', '1.0.0');
 $app->add(new CleaniqueCoders\Console\Skeleton\MakeSkeletonCommand);
+$app->add(new CleaniqueCoders\Console\Hook\MakeHookCommand);
 $app->run();

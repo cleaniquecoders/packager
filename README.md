@@ -28,6 +28,18 @@ Then, create a new package skeleton with:
 packager skeleton vendorName packageName 
 ```
 
+### Hook
+
+Hook command enabled a package to be loaded in target Laravel project. Following are the command syntax:
+
+```
+packager hook path/to/vendor/package path/to/laravel/project
+```
+
+With this hook command, your target package will be autoload in `composer.json` and the package service provider class will be inserted in `providers` key in `config/app.php`.
+
+You may want to run `composer dumpautoload` to make sure the package service provider is loaded.
+
 ## Contributing
 
 Thank you for considering contributing to the Laravel Standalone Package Creator! You can fork and make a pull request to contribute!
