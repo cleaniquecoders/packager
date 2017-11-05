@@ -37,12 +37,17 @@ class Commander extends Command
         return $this->cleanupName(str_replace(' ', '', ucwords($vendor))) . '\\' . $this->cleanupName(str_replace(' ', '', ucwords($package)));
     }
 
+    protected function getComposerConfig($path)
+    {
+        $composerJson = file_get_contents($path . DIRECTORY_SEPARATOR . 'composer.json');
+        return json_decode($composerJson);
+    }
+
     protected function getQualifiedNamespaceFromPath($path)
     {
-        $explode = explode(DIRECTORY_SEPARATOR, $path);
-        $vendor = str_replace('-', ' ', $explode[count($explode) - 2]);
-        $package = str_replace('-', ' ', $explode[count($explode) - 1]);
-        return $this->getQualifiedNamespace($vendor, $package) . '\\';
+        $json               = $this->getComposerConfig($path);
+        $qualifiedNamespace = key((array) $json->autoload->{'psr-4'});
+        return $qualifiedNamespace;
     }
 
     public function getDirectoryName($vendor, $package)
