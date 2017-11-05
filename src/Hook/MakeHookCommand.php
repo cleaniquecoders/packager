@@ -34,36 +34,42 @@ class MakeHookCommand extends Commander
         $package = $input->getArgument('from');
         $project = $input->getArgument('to');
 
+        // Definitions
         $package = realpath($package);
         $project = realpath($project);
 
+        $output->writeln('<info>Project Path: </info>' . $project);
+        $output->writeln('<info>Package Path: </info>' . $package);
+
+        // Verify Project and Package Existence
         $this->verifyPackageAndProjectDoesExist($project, $package);
-        $output->writeln('<info>Package and Project exist, now hook up the package to Laravel Project</info>');
+        $output->writeln('<info>Package and Project exist, now hook up the package to project</info>');
 
-        $composerJson = file_get_contents($project . DIRECTORY_SEPARATOR . 'composer.json');
-        $output->writeln('<info>Getting Laravel\'s</info> <comment>composer.json</comment> <info>content.</info>');
-        $json = json_decode($composerJson);
+        // Getting project composer.json file
+        $output->writeln('<info>Getting project\'s composer.json content.</info>');
+        $json = $this->getComposerConfig($project);
 
+        // Getting package namespace
         $packageNamespace = $this->getQualifiedNamespaceFromPath($package);
+        $output->writeln('<info>Package Namespace: </info>' . $packageNamespace);
         $json->autoload->{'psr-4'}->{$packageNamespace} = $package . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR;
 
+        // Update Project's composer.json
+        $output->writeln('<info>Updating project\'s</info> <comment>composer.json</comment> <info>autoload PSR-4.</info>');
         $composerJson = json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-
-        $output->writeln('<info>Updating Laravel\'s</info> <comment>composer.json</comment> <info>autoload PSR-4.</info>');
         file_put_contents($project . DIRECTORY_SEPARATOR . 'composer.json', $composerJson);
 
-        // Update Service Provider
+        // Update Project's Service Provider
+        $output->writeln('<info>Updating project\'s</info> <comment>config/app.php</comment> <info>providers.</info>');
         $configApp = file_get_contents($project . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'app.php');
-        $dummy = "/*
+        $dummy     = "/*
          * Package Service Providers...
          */";
-        $explode = explode(DIRECTORY_SEPARATOR, $package);
-        $packageName = str_replace('-', ' ', $explode[count($explode) - 1]);
-        $packageName = ucwords($packageName);
+        $explode         = explode(DIRECTORY_SEPARATOR, $package);
+        $packageName     = str_replace('-', ' ', $explode[count($explode) - 1]);
+        $packageName     = ucwords($packageName);
         $serviceProvider = $dummy . "\n         {$packageNamespace}{$packageName}ServiceProvider::class,";
-        $configApp = str_replace($dummy, $serviceProvider, $configApp);
-
-        $output->writeln('<info>Updating Laravel\'s</info> <comment>config/app.php</comment> providers.');
+        $configApp       = str_replace($dummy, $serviceProvider, $configApp);
         file_put_contents($project . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'app.php', $configApp);
     }
 }
