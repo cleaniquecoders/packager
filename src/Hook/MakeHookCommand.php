@@ -65,11 +65,19 @@ class MakeHookCommand extends Commander
         $dummy     = "/*
          * Package Service Providers...
          */";
-        $explode         = explode(DIRECTORY_SEPARATOR, $package);
-        $packageName     = str_replace('-', ' ', $explode[count($explode) - 1]);
-        $packageName     = ucwords($packageName);
-        $serviceProvider = $dummy . "\n         {$packageNamespace}{$packageName}ServiceProvider::class,";
-        $configApp       = str_replace($dummy, $serviceProvider, $configApp);
-        file_put_contents($project . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'app.php', $configApp);
+
+        $p     = $package . '/src/*ServiceProvider.php';
+        $files = glob($p);
+        if (count($files) > 0) {
+            $serviceProvider = $dummy . "\n         " . $packageNamespace . str_replace(
+                [$package . '/src/', '.php'],
+                ['', '::class'],
+                $files[0]) . ",";
+            $configApp = str_replace($dummy, $serviceProvider, $configApp);
+            file_put_contents($project . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'app.php', $configApp);
+        } else {
+            $output->writeln('<error>No service provider found in target package.</error>');
+            $output->writeln('<comment>You may add it manually into your project\'s config/app.php file.</comment>');
+        }
     }
 }
