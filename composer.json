@@ -14,11 +14,27 @@
             "CleaniqueCoders\\Console\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "CleaniqueCoders\\Console\\Tests\\": "tests/"
+        }
+    },
     "require": {
-        "symfony/console": "^3.2",
         "guzzlehttp/guzzle": "^6.2",
+        "illuminate/support": "^5.5",
+        "symfony/console": "^3.2",
         "symfony/filesystem": "^3.2"
     },
+    "require-dev": {
+        "orchestra/testbench": "~3.0",
+        "phpunit/phpunit": "^6.5",
+        "codedungeon/phpunit-result-printer": "^0.4.4"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "bin": [
         "packager"
     ]
