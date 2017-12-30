@@ -10,7 +10,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "DummyAutoLoad": "src/"
+            "DummyAutoLoad\\": "src/"
         },
         "files": [
             "src/Support/helpers.php"
@@ -18,11 +18,11 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "DummyAutoLoadTests\\": "tests/"
+            "DummyAutoLoad\\Tests\\": "tests/"
         }
     },
     "require": {
-        
+        "illuminate/support": "^5.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5",
