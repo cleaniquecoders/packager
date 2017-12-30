@@ -25,7 +25,13 @@ cd /my/packages/
 Then, create a new package skeleton with:
 
 ```
-packager skeleton vendorName packageName 
+packager skeleton "Cleanique Coders" "Lorem Ipsum" 
+```
+
+Navigate to your package directory and run the following command to install the dependencies.
+
+```
+composer update
 ```
 
 ### Hook
@@ -38,7 +44,9 @@ packager hook path/to/vendor/package path/to/laravel/project
 
 With this hook command, your target package will be autoload in `composer.json` and the package service provider class will be inserted in `providers` key in `config/app.php`.
 
-You may want to run `composer dumpautoload` to make sure the package service provider is loaded.
+You may want to run `composer dumpautoload -o` to make sure the package service provider is loaded.
+
+> Under consideration to remove this feature the Laravel Package Development only require Orchestra/Testbench to the with Laravel Application
 
 ## Contributing
 
