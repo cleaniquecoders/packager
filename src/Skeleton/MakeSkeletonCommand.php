@@ -60,7 +60,7 @@ class MakeSkeletonCommand extends Commander
                 "DummyAutoLoad",
             ],
             [
-                $this->getQualifiedName($vendor, $package),
+                $this->getQualifiedPackageName($vendor, $package),
                 $this->getAutoLoadName($vendor, $package),
             ],
             file_get_contents($composerJson)
@@ -83,7 +83,30 @@ class MakeSkeletonCommand extends Commander
             file_get_contents($packageProvider)
         ));
 
+        /** 4. Update TestCase.php */
+        $testCase = $directory . DIRECTORY_SEPARATOR . 'tests/TestCase.php';
+        file_put_contents($testCase, str_replace(
+            [
+                "DummyNamespace",
+                "DummyClassName",
+            ],
+            [
+                $this->getQualifiedNamespace($vendor, $package),
+                $this->getQualifiedClassName($package),
+            ],
+            file_get_contents($testCase)
+        ));
+
         $output->writeln('<info>Your package directory name: ' . $directory . '</info>');
+
+        /**
+         * @todo to make sure the following is automated
+         */
+        // exec('cd ' . $directory);
+        // exec('git init');
+        // exec('git add .');
+        // exec('git commit -m "initial commits"');
+        // exec($this->findComposer() . ' update');
 
         $output->writeln('<comment>Your Laravel Package Skeleton is ready!</comment>');
     }
