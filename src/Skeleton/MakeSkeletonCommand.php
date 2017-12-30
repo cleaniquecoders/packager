@@ -32,22 +32,27 @@ class MakeSkeletonCommand extends Commander
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $vendor = $input->getArgument('vendor');
-        $package = $input->getArgument('package');
-        $path = $input->getArgument('path') ? $input->getArgument('path') : getcwd();
-        $path = ($path == '.') ? getcwd() : $path;
-
+        $vendor    = $input->getArgument('vendor');
+        $package   = $input->getArgument('package');
+        $path      = $input->getArgument('path') ? $input->getArgument('path') : getcwd();
+        $path      = ($path == '.') ? getcwd() : $path;
         $directory = $path . DIRECTORY_SEPARATOR . $this->getDirectoryName($vendor, $package);
 
         $this->verifyPackageDoesntExist($directory);
 
         $output->writeln('<info>Creating your Laravel Package Skeleton...</info>');
 
+        /**
+         * 1. Copy Stub
+         * 2. Update Package Name and Autoload
+         * 3. Update Service Provider - File Name, Namespace, Class Name
+         */
+
+        /** 1. Copy Stub */
         $stubsDir = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'stubs';
-        // copy stubs
         $this->filesystem->mirror($stubsDir, $directory);
 
-        // update package name & autoload
+        /** 2. Update Package Name and Autoload */
         $composerJson = $directory . DIRECTORY_SEPARATOR . 'composer.json';
         file_put_contents($composerJson, str_replace(
             [
@@ -61,12 +66,11 @@ class MakeSkeletonCommand extends Commander
             file_get_contents($composerJson)
         ));
 
-        // update service provider
-        $dummyProvider = $directory . DIRECTORY_SEPARATOR . 'src/PackagerDummyServiceProvider.php';
+        /** 3. Update Service Provider - File Name, Namespace, Class Name,  */
+        $dummyProvider   = $directory . DIRECTORY_SEPARATOR . 'src/PackagerDummyServiceProvider.php';
         $packageProvider = $directory . DIRECTORY_SEPARATOR . 'src/' . $this->getQualifiedClassName($package) . 'ServiceProvider.php';
         $this->filesystem->rename($dummyProvider, $packageProvider, true);
 
-        // update namespace & service provider's class name
         file_put_contents($packageProvider, str_replace(
             [
                 "DummyNamespace",
