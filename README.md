@@ -14,39 +14,7 @@ composer global require cleaniquecoders/packager
 
 ## Usage
 
-### New Package 
-
-Go to your packages directory development, for instance:
-
-```
-cd /my/packages/
-```
-
-Then, create a new package skeleton with:
-
-```
-packager skeleton "Cleanique Coders" "Lorem Ipsum" 
-```
-
-Navigate to your package directory and run the following command to install the dependencies.
-
-```
-composer update
-```
-
-### Hook
-
-Hook command enabled a package to be loaded in target Laravel project. Following are the command syntax:
-
-```
-packager hook path/to/vendor/package path/to/laravel/project
-```
-
-With this hook command, your target package will be autoload in `composer.json` and the package service provider class will be inserted in `providers` key in `config/app.php`.
-
-You may want to run `composer dumpautoload -o` to make sure the package service provider is loaded.
-
-> Under consideration to remove this feature the Laravel Package Development only require Orchestra/Testbench to the with Laravel Application
+Please refer to [Wiki](https://github.com/cleaniquecoders/packager/wiki)
 
 ## Contributing
 
