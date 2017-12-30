@@ -5,14 +5,10 @@ Tell people about your package
 ## Installation
 
 ```
-You installation details here
+composer require DummyPackageName
 ```
 
 ## Usage
-
-```
-How to use your package?
-```
 
 ## License
 
