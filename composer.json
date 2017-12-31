@@ -1,7 +1,7 @@
 {
     "name": "cleaniquecoders/packager",
-    "description": "Laravel Standalone Package Creator: Use for Your Laravel Package Developement",
-    "keywords": ["laravel","package"],
+    "description": "Laravel Package Skeleton Generator",
+    "keywords": ["laravel","package", "generator"],
     "license": "MIT",
     "authors": [
         {
