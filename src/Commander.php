@@ -5,8 +5,8 @@ namespace CleaniqueCoders\Console;
 use CleaniqueCoders\Console\Traits\ComposerTrait;
 use CleaniqueCoders\Console\Traits\ProjectTrait;
 use CleaniqueCoders\Console\Traits\QualifiedClassNameTrait;
+use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Filesystem\Filesystem;
 
 class Commander extends Command
 {

@@ -42,19 +42,14 @@ class MakeSkeletonCommand extends Commander
 
         $output->writeln('<info>Creating your Laravel Package Skeleton...</info>');
 
-        /**
-         * 1. Copy Stub
-         * 2. Update Package Name and Autoload
-         * 3. Update Service Provider - File Name, Namespace, Class Name
-         */
-
         /** 1. Copy Stub */
         $stubsDir = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'stubs';
-        $this->filesystem->mirror($stubsDir, $directory);
+        $this->filesystem->copyDirectory($stubsDir, $directory);
 
         /** 2. Update Package Name and Autoload */
         $composerJson = $directory . DIRECTORY_SEPARATOR . 'composer.json';
-        file_put_contents($composerJson, str_replace(
+
+        $this->filesystem->put($composerJson, str_replace(
             [
                 "DummyPackageName",
                 "DummyAutoLoad",
@@ -63,15 +58,15 @@ class MakeSkeletonCommand extends Commander
                 $this->getQualifiedPackageName($vendor, $package),
                 $this->getAutoLoadName($vendor, $package),
             ],
-            file_get_contents($composerJson)
+            $this->filesystem->get($composerJson)
         ));
 
         /** 3. Update Service Provider - File Name, Namespace, Class Name,  */
-        $dummyProvider   = $directory . DIRECTORY_SEPARATOR . 'src/PackagerDummyServiceProvider.php';
-        $packageProvider = $directory . DIRECTORY_SEPARATOR . 'src/' . $this->getQualifiedClassName($package) . 'ServiceProvider.php';
-        $this->filesystem->rename($dummyProvider, $packageProvider, true);
+        $dummyProvider   = $directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'PackagerDummyServiceProvider.php';
+        $packageProvider = $directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $this->getQualifiedClassName($package) . 'ServiceProvider.php';
+        $this->filesystem->move($dummyProvider, $packageProvider, true);
 
-        file_put_contents($packageProvider, str_replace(
+        $this->filesystem->put($packageProvider, str_replace(
             [
                 "DummyNamespace",
                 "DummyClassName",
@@ -80,12 +75,12 @@ class MakeSkeletonCommand extends Commander
                 $this->getQualifiedNamespace($vendor, $package),
                 $this->getQualifiedClassName($package),
             ],
-            file_get_contents($packageProvider)
+            $this->filesystem->get($packageProvider)
         ));
 
         /** 4. Update TestCase.php */
-        $testCase = $directory . DIRECTORY_SEPARATOR . 'tests/TestCase.php';
-        file_put_contents($testCase, str_replace(
+        $testCase = $directory . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'TestCase.php';
+        $this->filesystem->put($testCase, str_replace(
             [
                 "DummyNamespace",
                 "DummyClassName",
@@ -94,7 +89,19 @@ class MakeSkeletonCommand extends Commander
                 $this->getQualifiedNamespace($vendor, $package),
                 $this->getQualifiedClassName($package),
             ],
-            file_get_contents($testCase)
+            $this->filesystem->get($testCase)
+        ));
+
+        /** 5. Update README.md */
+        $readme = $directory . DIRECTORY_SEPARATOR . 'README.md';
+        $this->filesystem->put($readme, str_replace(
+            [
+                "DummyPackageName",
+            ],
+            [
+                $this->getQualifiedPackageName($vendor, $package),
+            ],
+            $this->filesystem->get($readme)
         ));
 
         $output->writeln('<info>Your package directory name: ' . $directory . '</info>');
