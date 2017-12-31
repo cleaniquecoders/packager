@@ -21,6 +21,7 @@
     },
     "require": {
         "guzzlehttp/guzzle": "^6.2",
+        "illuminate/filesystem": "^5.5",
         "illuminate/support": "^5.5",
         "symfony/console": "^3.2|~4.0",
         "symfony/filesystem": "^3.2|~4.0"
