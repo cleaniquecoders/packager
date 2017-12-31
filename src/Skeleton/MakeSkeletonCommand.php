@@ -61,7 +61,7 @@ class MakeSkeletonCommand extends Commander
             $this->filesystem->get($composerJson)
         ));
 
-        /** 3. Update Service Provider - File Name, Namespace, Class Name,  */
+        /** 3. Update Service Provider  */
         $dummyProvider   = $directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'PackagerDummyServiceProvider.php';
         $packageProvider = $directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $this->getQualifiedClassName($package) . 'ServiceProvider.php';
         $this->filesystem->move($dummyProvider, $packageProvider, true);
@@ -78,7 +78,28 @@ class MakeSkeletonCommand extends Commander
             $this->filesystem->get($packageProvider)
         ));
 
-        /** 4. Update TestCase.php */
+        /** 4. Update Facade  */
+        $dummyFacade = $directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'PackagerDummyFacade.php';
+        $facade      = $directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $this->getQualifiedClassName($package) . 'Facade.php';
+        $this->filesystem->move($dummyFacade, $facade, true);
+
+        $this->filesystem->put($facade, str_replace(
+            [
+                "PackageName",
+                "DummyNamespace",
+                "DummyClassName",
+                "FacadeName",
+            ],
+            [
+                $this->getPackageName($package),
+                $this->getQualifiedNamespace($vendor, $package),
+                $this->getQualifiedClassName($package),
+                $this->getQualifiedFacadeName($package),
+            ],
+            $this->filesystem->get($facade)
+        ));
+
+        /** 5. Update TestCase.php */
         $testCase = $directory . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'TestCase.php';
         $this->filesystem->put($testCase, str_replace(
             [
@@ -92,7 +113,7 @@ class MakeSkeletonCommand extends Commander
             $this->filesystem->get($testCase)
         ));
 
-        /** 5. Update README.md */
+        /** 6. Update README.md */
         $readme = $directory . DIRECTORY_SEPARATOR . 'README.md';
         $this->filesystem->put($readme, str_replace(
             [
