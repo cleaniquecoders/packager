@@ -81,4 +81,43 @@ class ClassNameTest extends TestCase
             )
         );
     }
+
+    /** @test */
+    public function has_package_name()
+    {
+        $this->assertTrue(
+            Str::contains(
+                'cleanique-coders',
+                $this->commander->getVendorName(
+                    'Cleanique Coders'
+                )
+            )
+        );
+    }
+
+    /** @test */
+    public function has_vendor_name()
+    {
+        $this->assertTrue(
+            Str::contains(
+                'console',
+                $this->commander->getVendorName(
+                    'console'
+                )
+            )
+        );
+    }
+
+    /** @test */
+    public function has_facade_name()
+    {
+        $this->assertTrue(
+            Str::contains(
+                'CleaniqueCoders',
+                $this->commander->getQualifiedFacadeName(
+                    'Cleanique Coders'
+                )
+            )
+        );
+    }
 }
