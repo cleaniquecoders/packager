@@ -2,39 +2,13 @@
 
 namespace CleaniqueCoders\Console\Tests\Commands;
 
-use CleaniqueCoders\Console\Skeleton\MakeSkeletonCommand;
-use CleaniqueCoders\Console\Tests\TestCase;
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Root directory file content test.
  */
-class RootDirectoryFileContentTest extends TestCase
+class RootDirectoryFileContentTest extends SkeletonCommandTest
 {
-    protected $command;
-    protected $commandTester;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $application = new Application();
-        $application->add(new MakeSkeletonCommand());
-
-        // Setup the console command tester
-        $this->command = $application->find('skeleton');
-        $this->commandTester = new CommandTester($this->command);
-    }
-
-    public function tearDown()
-    {
-        // Remove all generated package directory and files
-        exec('rm -rf cleanique-coders');
-
-        parent::tearDown();
-    }
-
     /** @test */
     public function skeleton_command_creates_composer_json_file_with_correct_content()
     {
