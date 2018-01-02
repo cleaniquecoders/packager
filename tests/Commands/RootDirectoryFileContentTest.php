@@ -59,4 +59,48 @@ class RootDirectoryFileContentTest extends SkeletonCommandTest
 }";
         $this->assertEquals($composerJsonContent, file_get_contents('cleanique-coders/my-console/composer.json'));
     }
+
+    /** @test */
+    public function skeleton_command_creates_readme_md_file_with_correct_content()
+    {
+        $this->commandTester->execute([
+            'command' => $this->command->getName(),
+            'vendor'  => 'Cleanique Coders',
+            'package' => 'My Console',
+        ]);
+
+        $this->assertFileExists('cleanique-coders/my-console/README.md');
+
+        $readmeMdContent = "## About Your Package
+
+Tell people about your package
+
+## Installation
+
+1. In order to install PackageName in your Laravel project, just run the *composer require* command from your terminal:
+
+```
+composer require cleanique-coders/my-console
+```
+
+2. Then in your `config/app.php` add the following to the providers array:
+
+```php
+CleaniqueCoders\MyConsole\MyConsoleServiceProvider::class,
+```
+
+3. In the same `config/app.php` add the following to the aliases array:
+
+```php
+'PackageName' => CleaniqueCoders\MyConsole\MyConsoleFacade::class,
+```
+
+## Usage
+
+## License
+
+This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).";
+
+        $this->assertEquals($readmeMdContent, file_get_contents('cleanique-coders/my-console/README.md'));
+    }
 }
