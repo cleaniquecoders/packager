@@ -22,7 +22,7 @@ DummyNamespace\DummyClassNameServiceProvider::class,
 'PackageName' => DummyNamespace\DummyClassNameFacade::class,
 ```
 
-## Usage 
+## Usage
 
 ## License
 

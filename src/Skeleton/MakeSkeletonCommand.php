@@ -118,9 +118,13 @@ class MakeSkeletonCommand extends Commander
         $this->filesystem->put($readme, str_replace(
             [
                 "DummyPackageName",
+                "DummyNamespace",
+                "DummyClassName",
             ],
             [
                 $this->getQualifiedPackageName($vendor, $package),
+                $this->getQualifiedNamespace($vendor, $package),
+                $this->getQualifiedClassName($package),
             ],
             $this->filesystem->get($readme)
         ));
