@@ -1,5 +1,7 @@
 # Packager
 
+[![Build Status](https://travis-ci.org/cleaniquecoders/packager.svg?branch=master)](https://travis-ci.org/cleaniquecoders/packager)
+
 Laravel Standalone Package Creator
 
 ## About Packager
