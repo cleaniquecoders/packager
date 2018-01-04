@@ -1,6 +1,6 @@
 # Packager
 
-[![Build Status](https://travis-ci.org/cleaniquecoders/packager.svg?branch=master)](https://travis-ci.org/cleaniquecoders/packager)
+[![Build Status](https://travis-ci.org/cleaniquecoders/packager.svg?branch=master)](https://travis-ci.org/cleaniquecoders/packager) [![Latest Stable Version](https://poser.pugx.org/cleaniquecoders/packager/v/stable)](https://packagist.org/packages/cleaniquecoders/packager) [![Total Downloads](https://poser.pugx.org/cleaniquecoders/packager/downloads)](https://packagist.org/packages/cleaniquecoders/packager) [![License](https://poser.pugx.org/cleaniquecoders/packager/license)](https://packagist.org/packages/cleaniquecoders/packager)
 
 Laravel Standalone Package Creator
 
