@@ -4,7 +4,7 @@ Tell people about your package
 
 ## Installation
 
-1. In order to install PackageName in your Laravel project, just run the *composer require* command from your terminal:
+1. In order to install `DummyPackageName` in your Laravel project, just run the *composer require* command from your terminal:
 
 ```
 composer require DummyPackageName
@@ -19,7 +19,7 @@ DummyNamespace\DummyClassNameServiceProvider::class,
 3. In the same `config/app.php` add the following to the aliases array:
 
 ```php
-'PackageName' => DummyNamespace\DummyClassNameFacade::class,
+'FacadeName' => DummyNamespace\DummyClassNameFacade::class,
 ```
 
 ## Usage
