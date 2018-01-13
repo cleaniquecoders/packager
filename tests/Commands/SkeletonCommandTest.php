@@ -14,6 +14,7 @@ abstract class SkeletonCommandTest extends TestCase
 {
     protected $command;
     protected $commandTester;
+    protected $packageDirectory;
 
     public function setUp()
     {
@@ -22,15 +23,27 @@ abstract class SkeletonCommandTest extends TestCase
         $application = new Application();
         $application->add(new MakeSkeletonCommand());
 
-        // Setup the console command tester
-        $this->command = $application->find('skeleton');
+        $this->command       = $application->find('skeleton');
         $this->commandTester = new CommandTester($this->command);
+
+        $this->createPackage();
+    }
+
+    public function createPackage()
+    {
+        if (getcwd() != $this->base_path) {
+            chdir($this->base_path);
+        }
+        $this->commandTester->execute([
+            'command' => $this->command->getName(),
+            'vendor'  => $this->vendor_name,
+            'package' => $this->package_name,
+        ]);
     }
 
     public function tearDown()
     {
-        // Remove all generated package directory and files
-        exec('rm -rf cleanique-coders');
+        exec('rm -rf ' . $this->vendor_path);
 
         parent::tearDown();
     }
