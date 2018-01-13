@@ -118,27 +118,26 @@ class MakeSkeletonCommand extends Commander
         $this->filesystem->put($readme, str_replace(
             [
                 "DummyPackageName",
+                "PackageName",
                 "DummyNamespace",
                 "DummyClassName",
+                "FacadeName",
             ],
             [
                 $this->getQualifiedPackageName($vendor, $package),
+                $this->getPackageName($package),
                 $this->getQualifiedNamespace($vendor, $package),
                 $this->getQualifiedClassName($package),
+                $this->getQualifiedFacadeName($package),
             ],
             $this->filesystem->get($readme)
         ));
 
         $output->writeln('<info>Your package directory name: ' . $directory . '</info>');
 
-        /**
-         * @todo to make sure the following is automated
-         */
-        // exec('cd ' . $directory);
-        // exec('git init');
-        // exec('git add .');
-        // exec('git commit -m "initial commits"');
-        // exec($this->findComposer() . ' update');
+        chdir($directory);
+        $this->gitInit();
+        $this->composerInstall();
 
         $output->writeln('<comment>Your Laravel Package Skeleton is ready!</comment>');
     }
