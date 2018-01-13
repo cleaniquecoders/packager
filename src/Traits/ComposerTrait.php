@@ -40,4 +40,13 @@ trait ComposerTrait
         return $qualifiedNamespace;
     }
 
+    /**
+     * Install Package Dependencies
+     * @return void
+     */
+    public function composerInstall()
+    {
+        exec($this->findComposer() . ' install --no-progress --no-suggest');
+    }
+
 }
