@@ -1,6 +1,7 @@
 {
     "name": "DummyPackageName",
     "description": "Built with Laravel Standalone Package Creator",
+    "keywords": ["package", "laravel"],
     "license": "MIT",
     "authors": [
         {
@@ -22,6 +23,7 @@
         }
     },
     "require": {
+        "php": ">=7.0.0",
         "illuminate/support": "^5.5"
     },
     "require-dev": {
