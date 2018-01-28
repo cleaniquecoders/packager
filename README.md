@@ -1,6 +1,6 @@
-# Packager
-
 [![Build Status](https://travis-ci.org/cleaniquecoders/packager.svg?branch=master)](https://travis-ci.org/cleaniquecoders/packager) [![Latest Stable Version](https://poser.pugx.org/cleaniquecoders/packager/v/stable)](https://packagist.org/packages/cleaniquecoders/packager) [![Total Downloads](https://poser.pugx.org/cleaniquecoders/packager/downloads)](https://packagist.org/packages/cleaniquecoders/packager) [![License](https://poser.pugx.org/cleaniquecoders/packager/license)](https://packagist.org/packages/cleaniquecoders/packager)
+
+# Packager
 
 Laravel Standalone Package Creator
 
@@ -25,6 +25,26 @@ Thank you for considering contributing to the Laravel Standalone Package Creator
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within Laravel Standalone Package Creator, please send an e-mail to Nasrul Hazim at nasrul@cleaniquecoders.com. All security vulnerabilities will be promptly addressed.
+
+## Test
+
+To run the test, type `vendor/bin/phpunit` in your terminal.
+
+To have codes coverage, please ensure to install PHP XDebug then run the following command:
+
+```
+$ vendor/bin/phpunit -v --coverage-text --colors=never --stderr
+```
+
+## Contributions
+
+Everyone are welcome to contribute to this package. However, it's a good practice to provide:
+
+1. The problem you solved
+2. Provide test
+3. Documentation
+
+Without these 3, you may add extra work for the maintainer.
 
 ## License
 
