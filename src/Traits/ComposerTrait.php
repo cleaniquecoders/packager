@@ -46,7 +46,8 @@ trait ComposerTrait
      */
     public function composerInstall()
     {
-        exec($this->findComposer() . ' install --no-progress --no-suggest');
+        if (env('APP_ENV') != 'testing') {
+            exec($this->findComposer() . ' install --no-progress --no-suggest');
+        }
     }
-
 }
