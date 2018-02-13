@@ -8,10 +8,10 @@ use CleaniqueCoders\Console\Exceptions\PackageException;
 trait ProjectTrait
 {
     /**
-     * Verify Package and Project Existence
-     * @param  string $package Path to Package
-     * @param  string $project Path to Project
-     * @return void
+     * Verify Package and Project Existence.
+     *
+     * @param string $package Path to Package
+     * @param string $project Path to Project
      */
     public function verifyPackageAndProjectDoesExist($package, $project)
     {
@@ -22,12 +22,11 @@ trait ProjectTrait
     /**
      * Verify that the Laravel Project exist.
      *
-     * @param  string  $directory
-     * @return void
+     * @param string $directory
      */
     protected function verifyProjectDoesExist($directory)
     {
-        if (!is_dir($directory)) {
+        if (! is_dir($directory)) {
             throw new LaravelProjectException('Laravel Project does not exists!');
         }
     }
@@ -35,12 +34,11 @@ trait ProjectTrait
     /**
      * Verify that the package does not already exist.
      *
-     * @param  string  $directory
-     * @return void
+     * @param string $directory
      */
     protected function verifyPackageDoesExist($directory)
     {
-        if (!is_dir($directory)) {
+        if (! is_dir($directory)) {
             throw new LaravelProjectException('Package does not exists!');
         }
     }
@@ -48,8 +46,7 @@ trait ProjectTrait
     /**
      * Verify that the package does not already exist.
      *
-     * @param  string  $directory
-     * @return void
+     * @param string $directory
      */
     protected function verifyPackageDoesntExist($directory)
     {

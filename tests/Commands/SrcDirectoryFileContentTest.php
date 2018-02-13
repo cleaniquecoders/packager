@@ -16,5 +16,4 @@ class SrcDirectoryFileContentTest extends SkeletonCommandTest
 
         $this->assertEquals($supportHelperPhpContent, file_get_contents($this->package_path . '/src/Support/helpers.php'));
     }
-
 }

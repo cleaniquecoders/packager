@@ -11,8 +11,6 @@ class MakeHookCommand extends Commander
 {
     /**
      * Configure the command options.
-     *
-     * @return void
      */
     protected function configure()
     {
@@ -22,12 +20,12 @@ class MakeHookCommand extends Commander
             ->addArgument('from', InputArgument::REQUIRED)
             ->addArgument('to', InputArgument::REQUIRED);
     }
+
     /**
      * Execute the command.
      *
-     * @param  InputInterface  $input
-     * @param  OutputInterface  $output
-     * @return void
+     * @param InputInterface  $input
+     * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -62,9 +60,9 @@ class MakeHookCommand extends Commander
         // Update Project's Service Provider
         $output->writeln('<info>Updating project\'s</info> <comment>config/app.php</comment> <info>providers.</info>');
         $configApp = file_get_contents($project . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'app.php');
-        $dummy     = "/*
+        $dummy     = '/*
          * Package Service Providers...
-         */";
+         */';
 
         $p     = $package . '/src/*ServiceProvider.php';
         $files = glob($p);
@@ -72,7 +70,7 @@ class MakeHookCommand extends Commander
             $serviceProvider = $dummy . "\n         " . $packageNamespace . str_replace(
                 [$package . '/src/', '.php'],
                 ['', '::class'],
-                $files[0]) . ",";
+                $files[0]) . ',';
             $configApp = str_replace($dummy, $serviceProvider, $configApp);
             file_put_contents($project . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'app.php', $configApp);
         } else {

@@ -2,9 +2,6 @@
 
 namespace CleaniqueCoders\Console\Tests;
 
-/**
- *
- */
 class GitTest extends TestCase
 {
     /** @test */

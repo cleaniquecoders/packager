@@ -2,8 +2,6 @@
 
 namespace CleaniqueCoders\Console\Tests\Commands;
 
-use Symfony\Component\Console\Tester\CommandTester;
-
 /**
  * Skeleton command generated files test.
  */

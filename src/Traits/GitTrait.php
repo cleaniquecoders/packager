@@ -17,11 +17,12 @@ trait GitTrait
     }
 
     /**
-     * Check if git is installed
+     * Check if git is installed.
+     *
      * @return bool
      */
     public function gitInstalled()
     {
-        return !empty(exec("which git"));
+        return ! empty(exec('which git'));
     }
 }

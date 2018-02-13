@@ -7,9 +7,6 @@ use CleaniqueCoders\Console\Traits\GitTrait;
 use CleaniqueCoders\Console\Traits\ProjectTrait;
 use CleaniqueCoders\Console\Traits\QualifiedClassNameTrait;
 
-/**
- *
- */
 class Commander
 {
     use ComposerTrait, ProjectTrait, QualifiedClassNameTrait, GitTrait;

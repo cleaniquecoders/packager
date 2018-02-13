@@ -11,8 +11,6 @@ class MakeSkeletonCommand extends Commander
 {
     /**
      * Configure the command options.
-     *
-     * @return void
      */
     protected function configure()
     {
@@ -23,19 +21,19 @@ class MakeSkeletonCommand extends Commander
             ->addArgument('package', InputArgument::REQUIRED)
             ->addArgument('path', InputArgument::OPTIONAL);
     }
+
     /**
      * Execute the command.
      *
-     * @param  InputInterface  $input
-     * @param  OutputInterface  $output
-     * @return void
+     * @param InputInterface  $input
+     * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $vendor    = $input->getArgument('vendor');
         $package   = $input->getArgument('package');
         $path      = $input->getArgument('path') ? $input->getArgument('path') : getcwd();
-        $path      = ($path == '.') ? getcwd() : $path;
+        $path      = ('.' == $path) ? getcwd() : $path;
         $directory = $path . DIRECTORY_SEPARATOR . $this->getDirectoryName($vendor, $package);
 
         $this->verifyPackageDoesntExist($directory);
@@ -51,8 +49,8 @@ class MakeSkeletonCommand extends Commander
 
         $this->filesystem->put($composerJson, str_replace(
             [
-                "DummyPackageName",
-                "DummyAutoLoad",
+                'DummyPackageName',
+                'DummyAutoLoad',
             ],
             [
                 $this->getQualifiedPackageName($vendor, $package),
@@ -68,8 +66,8 @@ class MakeSkeletonCommand extends Commander
 
         $this->filesystem->put($packageProvider, str_replace(
             [
-                "DummyNamespace",
-                "DummyClassName",
+                'DummyNamespace',
+                'DummyClassName',
             ],
             [
                 $this->getQualifiedNamespace($vendor, $package),
@@ -85,10 +83,10 @@ class MakeSkeletonCommand extends Commander
 
         $this->filesystem->put($facade, str_replace(
             [
-                "PackageName",
-                "DummyNamespace",
-                "DummyClassName",
-                "FacadeName",
+                'PackageName',
+                'DummyNamespace',
+                'DummyClassName',
+                'FacadeName',
             ],
             [
                 $this->getPackageName($package),
@@ -103,8 +101,8 @@ class MakeSkeletonCommand extends Commander
         $testCase = $directory . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'TestCase.php';
         $this->filesystem->put($testCase, str_replace(
             [
-                "DummyNamespace",
-                "DummyClassName",
+                'DummyNamespace',
+                'DummyClassName',
             ],
             [
                 $this->getQualifiedNamespace($vendor, $package),
@@ -117,11 +115,11 @@ class MakeSkeletonCommand extends Commander
         $readme = $directory . DIRECTORY_SEPARATOR . 'README.md';
         $this->filesystem->put($readme, str_replace(
             [
-                "DummyPackageName",
-                "PackageName",
-                "DummyNamespace",
-                "DummyClassName",
-                "FacadeName",
+                'DummyPackageName',
+                'PackageName',
+                'DummyNamespace',
+                'DummyClassName',
+                'FacadeName',
             ],
             [
                 $this->getQualifiedPackageName($vendor, $package),

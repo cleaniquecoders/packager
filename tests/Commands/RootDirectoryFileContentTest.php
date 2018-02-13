@@ -12,45 +12,45 @@ class RootDirectoryFileContentTest extends SkeletonCommandTest
     {
         $this->assertFileExists($this->package_path . '/composer.json');
 
-        $composerJsonContent = "{
-    \"name\": \"cleanique-coders/my-console\",
-    \"description\": \"Built with Laravel Standalone Package Creator\",
-    \"keywords\": [\"package\", \"laravel\"],
-    \"license\": \"MIT\",
-    \"authors\": [
+        $composerJsonContent = '{
+    "name": "cleanique-coders/my-console",
+    "description": "Built with Laravel Standalone Package Creator",
+    "keywords": ["package", "laravel"],
+    "license": "MIT",
+    "authors": [
         {
-            \"name\": \"Nasrul Hazim\",
-            \"email\": \"nasrulhazim.m@gmail.com\"
+            "name": "Nasrul Hazim",
+            "email": "nasrulhazim.m@gmail.com"
         }
     ],
-    \"autoload\": {
-        \"psr-4\": {
-            \"CleaniqueCoders\\\\MyConsole\\\\\": \"src/\"
+    "autoload": {
+        "psr-4": {
+            "CleaniqueCoders\\\\MyConsole\\\\": "src/"
         },
-        \"files\": [
-            \"src/Support/helpers.php\"
+        "files": [
+            "src/Support/helpers.php"
         ]
     },
-    \"autoload-dev\": {
-        \"psr-4\": {
-            \"CleaniqueCoders\\\\MyConsole\\\\Tests\\\\\": \"tests/\"
+    "autoload-dev": {
+        "psr-4": {
+            "CleaniqueCoders\\\\MyConsole\\\\Tests\\\\": "tests/"
         }
     },
-    \"require\": {
-        \"php\": \">=7.0.0\",
-        \"illuminate/support\": \"^5.5\"
+    "require": {
+        "php": ">=7.0.0",
+        "illuminate/support": "^5.5"
     },
-    \"require-dev\": {
-        \"phpunit/phpunit\": \"^6.5\",
-        \"orchestra/testbench\": \"~3.0\",
-        \"codedungeon/phpunit-result-printer\": \"^0.4.4\"
+    "require-dev": {
+        "phpunit/phpunit": "^6.5",
+        "orchestra/testbench": "~3.0",
+        "codedungeon/phpunit-result-printer": "^0.4.4"
     },
-    \"config\": {
-        \"sort-packages\": true
+    "config": {
+        "sort-packages": true
     },
-    \"minimum-stability\": \"dev\",
-    \"prefer-stable\": true
-}";
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}';
         $this->assertEquals($composerJsonContent, file_get_contents($this->package_path . '/composer.json'));
     }
 

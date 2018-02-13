@@ -14,7 +14,8 @@ class Commander extends Command
     use ComposerTrait, ProjectTrait, QualifiedClassNameTrait, GitTrait;
 
     /**
-     * Filesystem
+     * Filesystem.
+     *
      * @var Symfony\Component\Filesystem\Filesystem
      */
     protected $filesystem;
@@ -22,6 +23,6 @@ class Commander extends Command
     public function __construct($name = null)
     {
         parent::__construct($name);
-        $this->filesystem = new Filesystem;
+        $this->filesystem = new Filesystem();
     }
 }

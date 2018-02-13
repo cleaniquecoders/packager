@@ -2,7 +2,7 @@
 
 namespace DummyNamespace;
 
-/**
+/*
  * This file is part of PackageName
  *
  * @license MIT

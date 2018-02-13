@@ -5,7 +5,7 @@ namespace CleaniqueCoders\Console\Tests;
 use Illuminate\Support\Str;
 
 /**
- * Test Root Namespace, class name, service provider, autoload
+ * Test Root Namespace, class name, service provider, autoload.
  */
 class ClassNameTest extends TestCase
 {
