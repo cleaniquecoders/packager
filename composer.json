@@ -20,16 +20,17 @@
         }
     },
     "require": {
+        "php": ">=7.1",
         "guzzlehttp/guzzle": "^6.2",
-        "illuminate/filesystem": "5.5.*",
-        "illuminate/support": "5.5.*",
-        "symfony/console": "^3.2|~4.0",
-        "symfony/filesystem": "^3.2|~4.0"
+        "illuminate/filesystem": "^5.5|^5.6",
+        "illuminate/support": "^5.5|^5.6",
+        "symfony/console": "~4.0",
+        "symfony/filesystem": "~4.0"
     },
     "require-dev": {
-        "orchestra/testbench": "~3.0",
-        "phpunit/phpunit": "^6.5",
-        "codedungeon/phpunit-result-printer": "^0.4.4"
+        "phpunit/phpunit": "^6.5|^7.0",
+        "orchestra/testbench": "3.5.*|3.6.*",
+        "codedungeon/phpunit-result-printer": "^0.4.4|^0.6.0"
     },
     "config": {
         "sort-packages": true
