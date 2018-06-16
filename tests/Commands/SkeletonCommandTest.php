@@ -29,6 +29,13 @@ abstract class SkeletonCommandTest extends TestCase
         $this->createPackage();
     }
 
+    public function tearDown()
+    {
+        exec('rm -rf ' . $this->vendor_path);
+
+        parent::tearDown();
+    }
+
     public function createPackage()
     {
         if (getcwd() != $this->base_path) {
@@ -39,12 +46,5 @@ abstract class SkeletonCommandTest extends TestCase
             'vendor'  => $this->vendor_name,
             'package' => $this->package_name,
         ]);
-    }
-
-    public function tearDown()
-    {
-        exec('rm -rf ' . $this->vendor_path);
-
-        parent::tearDown();
     }
 }

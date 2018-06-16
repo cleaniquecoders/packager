@@ -45,6 +45,13 @@ class RootDirectoryFileContentTest extends SkeletonCommandTest
         "orchestra/testbench": "3.5.*|3.6.*",
         "codedungeon/phpunit-result-printer": "^0.4.4|^0.6.0"
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CleaniqueCoders\\\\MyConsole\\\\MyConsoleServiceProvider"
+            ]
+        }
+    },
     "config": {
         "sort-packages": true
     },

@@ -51,10 +51,12 @@ class MakeSkeletonCommand extends Commander
             [
                 'DummyPackageName',
                 'DummyAutoLoad',
+                'PackagerDummyServiceProvider',
             ],
             [
                 $this->getQualifiedPackageName($vendor, $package),
                 $this->getAutoLoadName($vendor, $package),
+                $this->getQualifiedClassName($package) . 'ServiceProvider',
             ],
             $this->filesystem->get($composerJson)
         ));

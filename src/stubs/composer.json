@@ -31,6 +31,13 @@
         "orchestra/testbench": "3.5.*|3.6.*",
         "codedungeon/phpunit-result-printer": "^0.4.4|^0.6.0"
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DummyAutoLoad\\PackagerDummyServiceProvider"
+            ]
+        }
+    },
     "config": {
         "sort-packages": true
     },
