@@ -7,6 +7,6 @@ if (file_exists(__DIR__.'/../../autoload.php')) {
     require __DIR__.'/vendor/autoload.php';
 }
 
-$app = new Symfony\Component\Console\Application('Laravel Package Skeleton Generator', '2.0.2');
+$app = new Symfony\Component\Console\Application('Laravel Package Skeleton Generator', '2.0.9');
 $app->add(new CleaniqueCoders\Console\Skeleton\MakeSkeletonCommand);
 $app->run();
