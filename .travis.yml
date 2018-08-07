@@ -5,8 +5,11 @@ php:
   - 7.2
 
 before_script:
-  - travis_retry composer self-update
-  - travis_retry composer update --prefer-source --no-interaction --dev
+  - travis_retry composer install --prefer-dist --no-interaction
+
+cache:
+  directories:
+    - vendor
 
 script:
-  - vendor/bin/phpunit -v --coverage-text --colors=never --stderr
+  - vendor/bin/phpunit  --testdox --verbose
