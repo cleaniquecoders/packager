@@ -45,4 +45,27 @@ class TestCase extends \Orchestra\Testbench\TestCase
             'prefix'   => '',
         ]);
     }
+
+    /**
+     * Assert the current database has table.
+     * @param  string $table Table name.
+     * @return void
+     */
+    protected function assertHasTable($table)
+    {
+        $this->assertTrue(Schema::hasTable($table));
+    }
+
+    /**
+     * Assert the table has columns defined.
+     * @param  string $table Table name.
+     * @param  array $columns List of columns.
+     * @return void
+     */
+    protected function assertTableHasColumns($table, $columns)
+    {
+        collect($columns)->each(function ($column) use ($table) {
+            $this->assertTrue(Schema::hasColumn($table, $column));
+        });
+    }
 }
