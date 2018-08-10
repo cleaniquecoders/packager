@@ -56,4 +56,21 @@ trait ComposerTrait
             exec($this->findComposer() . ' install --no-progress --no-suggest');
         }
     }
+
+    /**
+     * Link local package to target project.
+     *
+     * @see http://calebporzio.com/bash-alias-composer-link-use-local-folders-as-composer-dependancies/
+     *
+     * @param string $pathOrUrl
+     */
+    public function composerLink($pathOrUrl)
+    {
+        if ('testing' != env('APP_ENV')) {
+            exec($this->findComposer() . ' config repositories.local \'{"type": "path", "url": "' . $pathOrUrl . '"}\' --file composer.json');
+            return true;
+        }
+
+        return false;
+    }
 }

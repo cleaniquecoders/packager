@@ -48,8 +48,8 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     /**
      * Assert the current database has table.
-     * @param  string $table Table name.
-     * @return void
+     *
+     * @param string $table table name
      */
     protected function assertHasTable($table)
     {
@@ -58,9 +58,9 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     /**
      * Assert the table has columns defined.
-     * @param  string $table Table name.
-     * @param  array $columns List of columns.
-     * @return void
+     *
+     * @param string $table   table name
+     * @param array  $columns list of columns
      */
     protected function assertTableHasColumns($table, $columns)
     {
