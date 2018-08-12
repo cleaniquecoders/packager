@@ -96,12 +96,10 @@ CleaniqueCoders\MyConsole\MyConsoleServiceProvider::class,
 
 ## Test
 
-To run the test, type `vendor/bin/phpunit` in your terminal.
-
-To have codes coverage, please ensure to install PHP XDebug then run the following command:
+Run the following command:
 
 ```
-$ vendor/bin/phpunit -v --coverage-text --colors=never --stderr
+$ vendor/bin/phpunit  --testdox --verbose
 ```
 
 ## Contributing
