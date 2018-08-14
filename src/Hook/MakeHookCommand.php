@@ -6,6 +6,7 @@ use CleaniqueCoders\Console\Commander;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Illuminate\Support\Str;
 
 class MakeHookCommand extends Commander
 {
@@ -17,6 +18,7 @@ class MakeHookCommand extends Commander
         $this
             ->setName('hook')
             ->setDescription('Hook package to a Laravel project locally')
+            ->addArgument('name', InputArgument::REQUIRED)
             ->addArgument('to', InputArgument::REQUIRED);
     }
 
@@ -28,9 +30,10 @@ class MakeHookCommand extends Commander
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $name = $input->getArgument('name');
         $pathOrUrl = $input->getArgument('to');
 
-        $status = $this->composerLink($pathOrUrl);
+        $status = $this->composerLink(Str::snake($name), $pathOrUrl);
 
         if($status) {
             $output->writeln('<info>Packaged linked.</info>');
