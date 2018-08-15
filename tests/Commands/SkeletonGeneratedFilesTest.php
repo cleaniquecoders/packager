@@ -21,6 +21,9 @@ class SkeletonGeneratedFilesTest extends SkeletonCommandTest
         $this->assertFileExists($this->package_path . '/src/MyConsoleServiceProvider.php');
 
         // Check that generated files are exist on /tests directory
+        $this->assertFileExists($this->package_path . '/tests/Traits/SeedTrait.php');
+        $this->assertFileExists($this->package_path . '/tests/Traits/TestCaseTrait.php');
+        $this->assertFileExists($this->package_path . '/tests/Traits/UserTrait.php');
         $this->assertFileExists($this->package_path . '/tests/TestCase.php');
 
         // Check that generated files are exist on package root directory

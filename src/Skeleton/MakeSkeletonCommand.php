@@ -30,60 +30,107 @@ class MakeSkeletonCommand extends Commander
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $vendor    = $input->getArgument('vendor');
-        $package   = $input->getArgument('package');
-        $path      = $input->getArgument('path') ? $input->getArgument('path') : getcwd();
-        $path      = ('.' == $path) ? getcwd() : $path;
-        $directory = $path . DIRECTORY_SEPARATOR . $this->getDirectoryName($vendor, $package);
-
-        $this->verifyPackageDoesntExist($directory);
+        $this->vendor    = $vendor    = $input->getArgument('vendor');
+        $this->package   = $package   = $input->getArgument('package');
+        $this->path      = $path      = $input->getArgument('path') ? $input->getArgument('path') : getcwd();
+        $this->path      = $path      = ('.' == $path) ? getcwd() : $path;
+        $this->directory = $directory = $path . DIRECTORY_SEPARATOR . $this->getDirectoryName($vendor, $package);
 
         $output->writeln('<info>Creating your Laravel Package Skeleton...</info>');
 
-        /** 1. Copy Stub */
+        /* 0. Verify Directory */
+        $this->verifyPackageDoesntExist($directory);
+
+        /* 1. Copy Stub */
+        $this->copyStubs();
+
+        /* 2. Update Package Name and Autoload */
+        $this->updatePackageNameAndAutoload();
+
+        /* 3. Update Service Provider  */
+        $this->updateServiceProvider();
+
+        /* 4. Update Facade */
+        $this->updateFacade();
+
+        /* 5. Update TestCase.php */
+        $this->updateTestCase();
+
+        /* 6. Update README.md */
+        $this->updateReadme();
+
+        /* 7. Initialise Git, install composer dependencies */
+        $this->initRepository();
+
+        $output->writeln('<info>Your package directory name: ' . $directory . '</info>');
+        $output->writeln('<comment>Your Laravel Package Skeleton is ready!</comment>');
+    }
+
+    private function replace($these, $withThese, $file)
+    {
+        $this->filesystem->put(
+            $file,
+            str_replace(
+                $these,
+                $withThese,
+                $this->filesystem->get($file)
+            )
+        );
+    }
+
+    /** 1. Copy Stub */
+    private function copyStubs()
+    {
         $stubsDir = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'stubs';
-        $this->filesystem->copyDirectory($stubsDir, $directory);
+        $this->filesystem->copyDirectory($stubsDir, $this->directory);
+    }
 
-        /** 2. Update Package Name and Autoload */
-        $composerJson = $directory . DIRECTORY_SEPARATOR . 'composer.json';
-
-        $this->filesystem->put($composerJson, str_replace(
+    /** 2. Update Package Name and Autoload */
+    private function updatePackageNameAndAutoload()
+    {
+        $composerJson = $this->directory . DIRECTORY_SEPARATOR . 'composer.json';
+        $this->replace(
             [
                 'DummyPackageName',
                 'DummyAutoLoad',
                 'PackagerDummyServiceProvider',
             ],
             [
-                $this->getQualifiedPackageName($vendor, $package),
-                $this->getAutoLoadName($vendor, $package),
-                $this->getQualifiedClassName($package) . 'ServiceProvider',
+                $this->getQualifiedPackageName($this->vendor, $this->package),
+                $this->getAutoLoadName($this->vendor, $this->package),
+                $this->getQualifiedClassName($this->package) . 'ServiceProvider',
             ],
-            $this->filesystem->get($composerJson)
-        ));
+            $composerJson
+        );
+    }
 
-        /** 3. Update Service Provider  */
-        $dummyProvider   = $directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'PackagerDummyServiceProvider.php';
-        $packageProvider = $directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $this->getQualifiedClassName($package) . 'ServiceProvider.php';
+    /** 3. Update Service Provider  */
+    private function updateServiceProvider()
+    {
+        $dummyProvider   = $this->directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'PackagerDummyServiceProvider.php';
+        $packageProvider = $this->directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $this->getQualifiedClassName($this->package) . 'ServiceProvider.php';
         $this->filesystem->move($dummyProvider, $packageProvider, true);
-
-        $this->filesystem->put($packageProvider, str_replace(
+        $this->replace(
             [
                 'DummyNamespace',
                 'DummyClassName',
             ],
             [
-                $this->getQualifiedNamespace($vendor, $package),
-                $this->getQualifiedClassName($package),
+                $this->getQualifiedNamespace($this->vendor, $this->package),
+                $this->getQualifiedClassName($this->package),
             ],
-            $this->filesystem->get($packageProvider)
-        ));
+            $packageProvider
+        );
+    }
 
-        /** 4. Update Facade  */
-        $dummyFacade = $directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'PackagerDummyFacade.php';
-        $facade      = $directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $this->getQualifiedClassName($package) . 'Facade.php';
+    /** 4. Update Facade  */
+    private function updateFacade()
+    {
+        $dummyFacade = $this->directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'PackagerDummyFacade.php';
+        $facade      = $this->directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $this->getQualifiedClassName($this->package) . 'Facade.php';
+
         $this->filesystem->move($dummyFacade, $facade, true);
-
-        $this->filesystem->put($facade, str_replace(
+        $this->replace(
             [
                 'PackageName',
                 'DummyNamespace',
@@ -91,31 +138,44 @@ class MakeSkeletonCommand extends Commander
                 'FacadeName',
             ],
             [
-                $this->getPackageName($package),
-                $this->getQualifiedNamespace($vendor, $package),
-                $this->getQualifiedClassName($package),
-                $this->getQualifiedFacadeName($package),
+                $this->getPackageName($this->package),
+                $this->getQualifiedNamespace($this->vendor, $this->package),
+                $this->getQualifiedClassName($this->package),
+                $this->getQualifiedFacadeName($this->package),
             ],
-            $this->filesystem->get($facade)
-        ));
+            $facade
+        );
+    }
 
-        /** 5. Update TestCase.php */
-        $testCase = $directory . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'TestCase.php';
-        $this->filesystem->put($testCase, str_replace(
-            [
-                'DummyNamespace',
-                'DummyClassName',
-            ],
-            [
-                $this->getQualifiedNamespace($vendor, $package),
-                $this->getQualifiedClassName($package),
-            ],
-            $this->filesystem->get($testCase)
-        ));
+    /** 5. Update TestCase.php */
+    private function updateTestCase()
+    {
+        $files = [
+            $this->directory . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'TestCase.php',
+            $this->directory . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'Traits' . DIRECTORY_SEPARATOR . 'SeedTrait.php',
+            $this->directory . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'Traits' . DIRECTORY_SEPARATOR . 'TestCaseTrait.php',
+            $this->directory . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'Traits' . DIRECTORY_SEPARATOR . 'UserTrait.php',
+        ];
 
-        /** 6. Update README.md */
-        $readme = $directory . DIRECTORY_SEPARATOR . 'README.md';
-        $this->filesystem->put($readme, str_replace(
+        foreach ($files as $file) {
+            $this->replace(
+                [
+                    'DummyNamespace',
+                    'DummyClassName',
+                ],
+                [
+                    $this->getQualifiedNamespace($this->vendor, $this->package),
+                    $this->getQualifiedClassName($this->package),
+                ],
+                $file
+            );
+        }
+    }
+
+    /** 6. Update README.md */
+    private function updateReadme()
+    {
+        $this->replace(
             [
                 'DummyPackageName',
                 'PackageName',
@@ -124,21 +184,21 @@ class MakeSkeletonCommand extends Commander
                 'FacadeName',
             ],
             [
-                $this->getQualifiedPackageName($vendor, $package),
-                $this->getPackageName($package),
-                $this->getQualifiedNamespace($vendor, $package),
-                $this->getQualifiedClassName($package),
-                $this->getQualifiedFacadeName($package),
+                $this->getQualifiedPackageName($this->vendor, $this->package),
+                $this->getPackageName($this->package),
+                $this->getQualifiedNamespace($this->vendor, $this->package),
+                $this->getQualifiedClassName($this->package),
+                $this->getQualifiedFacadeName($this->package),
             ],
-            $this->filesystem->get($readme)
-        ));
+            $this->directory . DIRECTORY_SEPARATOR . 'README.md'
+        );
+    }
 
-        $output->writeln('<info>Your package directory name: ' . $directory . '</info>');
-
-        chdir($directory);
+    /** 7. Initialise Git, install composer dependencies */
+    private function initRepository()
+    {
+        chdir($this->directory);
         $this->gitInit();
         $this->composerInstall();
-
-        $output->writeln('<comment>Your Laravel Package Skeleton is ready!</comment>');
     }
 }

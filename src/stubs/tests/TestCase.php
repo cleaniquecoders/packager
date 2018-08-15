@@ -18,6 +18,15 @@ class TestCase extends \Orchestra\Testbench\TestCase
         // $this->artisan('migrate', ['--database' => 'testbench']);
     }
 
+    protected function tearDown()
+    {
+        collect(glob(database_path('migrations/*.php')))
+            ->each(function ($path) {
+                unlink($path);
+            });
+        parent::tearDown();
+    }
+
     /**
      * Load Package Service Provider.
      *
@@ -72,9 +81,9 @@ class TestCase extends \Orchestra\Testbench\TestCase
     }
 
     /**
-     * Assert has helper
+     * Assert has helper.
      *
-     * @param string $helper   helper name
+     * @param string $helper helper name
      */
     protected function assertHasHelper($helper)
     {
@@ -82,9 +91,9 @@ class TestCase extends \Orchestra\Testbench\TestCase
     }
 
     /**
-     * Assert has config
+     * Assert has config.
      *
-     * @param string $config   config name
+     * @param string $config config name
      */
     protected function assertHasConfig($config)
     {
@@ -92,9 +101,9 @@ class TestCase extends \Orchestra\Testbench\TestCase
     }
 
     /**
-     * Assert has class
+     * Assert has class.
      *
-     * @param string $class   class name
+     * @param string $class class name
      */
     protected function assertHasClass($class)
     {
@@ -102,22 +111,13 @@ class TestCase extends \Orchestra\Testbench\TestCase
     }
 
     /**
-     * Assert has class method exist
+     * Assert has class method exist.
      *
-     * @param string $object   object 
-     * @param string $method   method 
+     * @param string $object object
+     * @param string $method method
      */
     protected function assertHasClassMethod($object, $method)
     {
         $this->assertTrue(method_exists($object, $method));
-    }
-
-    protected function tearDown()
-    {
-        collect(glob(database_path('migrations/*.php')))
-            ->each(function ($path) {
-                unlink($path);
-            });
-        parent::tearDown();
     }
 }
