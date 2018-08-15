@@ -3,10 +3,10 @@
 namespace CleaniqueCoders\Console\Hook;
 
 use CleaniqueCoders\Console\Commander;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Illuminate\Support\Str;
 
 class MakeHookCommand extends Commander
 {
@@ -30,12 +30,12 @@ class MakeHookCommand extends Commander
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $name = $input->getArgument('name');
+        $name      = $input->getArgument('name');
         $pathOrUrl = $input->getArgument('to');
 
         $status = $this->composerLink(Str::snake($name), $pathOrUrl);
 
-        if($status) {
+        if ($status) {
             $output->writeln('<info>Packaged linked.</info>');
         } else {
             $output->writeln('<comment>Unable to link the package.</comment>');

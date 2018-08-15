@@ -69,6 +69,7 @@ trait ComposerTrait
     {
         if ('testing' != env('APP_ENV')) {
             exec($this->findComposer() . ' config repositories.' . $name . ' \'{"type": "path", "url": "' . $pathOrUrl . '"}\' --file composer.json');
+
             return true;
         }
 
