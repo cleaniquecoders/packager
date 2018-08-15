@@ -30,11 +30,14 @@ class MakeSkeletonCommand extends Commander
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->vendor    = $vendor    = $input->getArgument('vendor');
-        $this->package   = $package   = $input->getArgument('package');
-        $this->path      = $path      = $input->getArgument('path') ? $input->getArgument('path') : getcwd();
-        $this->path      = $path      = ('.' == $path) ? getcwd() : $path;
-        $this->directory = $directory = $path . DIRECTORY_SEPARATOR . $this->getDirectoryName($vendor, $package);
+        $this->vendor            = $vendor            = $input->getArgument('vendor');
+        $this->package           = $package           = $input->getArgument('package');
+        $this->path              = $path              = $input->getArgument('path') ? $input->getArgument('path') : getcwd();
+        $this->path              = $path              = ('.' == $path) ? getcwd() : $path;
+        $this->directory         = $directory         = $path . DIRECTORY_SEPARATOR . $this->getDirectoryName($vendor, $package);
+        $this->package_path      = $this->directory . DIRECTORY_SEPARATOR;
+        $this->package_src_path  = $this->package_path . 'src' . DIRECTORY_SEPARATOR;
+        $this->package_test_path = $this->package_path . 'tests' . DIRECTORY_SEPARATOR;
 
         $output->writeln('<info>Creating your Laravel Package Skeleton...</info>');
 
@@ -88,7 +91,7 @@ class MakeSkeletonCommand extends Commander
     /** 2. Update Package Name and Autoload */
     private function updatePackageNameAndAutoload()
     {
-        $composerJson = $this->directory . DIRECTORY_SEPARATOR . 'composer.json';
+        $composerJson = $this->package_path . 'composer.json';
         $this->replace(
             [
                 'DummyPackageName',
@@ -107,8 +110,8 @@ class MakeSkeletonCommand extends Commander
     /** 3. Update Service Provider  */
     private function updateServiceProvider()
     {
-        $dummyProvider   = $this->directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'PackagerDummyServiceProvider.php';
-        $packageProvider = $this->directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $this->getQualifiedClassName($this->package) . 'ServiceProvider.php';
+        $dummyProvider   = $this->package_src_path . 'PackagerDummyServiceProvider.php';
+        $packageProvider = $this->package_src_path . $this->getQualifiedClassName($this->package) . 'ServiceProvider.php';
         $this->filesystem->move($dummyProvider, $packageProvider, true);
         $this->replace(
             [
@@ -126,8 +129,8 @@ class MakeSkeletonCommand extends Commander
     /** 4. Update Facade  */
     private function updateFacade()
     {
-        $dummyFacade = $this->directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'PackagerDummyFacade.php';
-        $facade      = $this->directory . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $this->getQualifiedClassName($this->package) . 'Facade.php';
+        $dummyFacade = $this->package_src_path . 'PackagerDummyFacade.php';
+        $facade      = $this->package_src_path . $this->getQualifiedClassName($this->package) . 'Facade.php';
 
         $this->filesystem->move($dummyFacade, $facade, true);
         $this->replace(
@@ -151,10 +154,10 @@ class MakeSkeletonCommand extends Commander
     private function updateTestCase()
     {
         $files = [
-            $this->directory . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'TestCase.php',
-            $this->directory . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'Traits' . DIRECTORY_SEPARATOR . 'SeedTrait.php',
-            $this->directory . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'Traits' . DIRECTORY_SEPARATOR . 'TestCaseTrait.php',
-            $this->directory . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'Traits' . DIRECTORY_SEPARATOR . 'UserTrait.php',
+            $this->package_test_path . 'TestCase.php',
+            $this->package_test_path . 'Traits' . DIRECTORY_SEPARATOR . 'SeedTrait.php',
+            $this->package_test_path . 'Traits' . DIRECTORY_SEPARATOR . 'TestCaseTrait.php',
+            $this->package_test_path . 'Traits' . DIRECTORY_SEPARATOR . 'UserTrait.php',
         ];
 
         foreach ($files as $file) {
@@ -190,7 +193,7 @@ class MakeSkeletonCommand extends Commander
                 $this->getQualifiedClassName($this->package),
                 $this->getQualifiedFacadeName($this->package),
             ],
-            $this->directory . DIRECTORY_SEPARATOR . 'README.md'
+            $this->package_path . 'README.md'
         );
     }
 
