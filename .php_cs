@@ -1,4 +1,7 @@
 <?php
+
+ini_set('memory_limit','1024M');
+
 $finder = PhpCsFixer\Finder::create()
     ->notPath('bootstrap/cache')
     ->notPath('storage')
@@ -23,6 +26,7 @@ return PhpCsFixer\Config::create()
             'destruct', 'magic', 'phpunit', 'method_public', 'method_protected', 
             'method_private'
         ],
+        'function_declaration'              => ['closure_function_spacing' => 'none'],
         'binary_operator_spaces'            => ['default' => 'align_single_space_minimal'],
         'array_syntax'                      => ['syntax' => 'short'],
         'concat_space'                      => ['spacing' => 'one'],
