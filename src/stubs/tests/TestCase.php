@@ -21,7 +21,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function tearDown()
     {
         collect(glob(database_path('migrations/*.php')))
-            ->each(function($path) {
+            ->each(function ($path) {
                 unlink($path);
             });
         parent::tearDown();
@@ -75,7 +75,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function assertTableHasColumns($table, $columns)
     {
-        collect($columns)->each(function($column) use ($table) {
+        collect($columns)->each(function ($column) use ($table) {
             $this->assertTrue(Schema::hasColumn($table, $column));
         });
     }
