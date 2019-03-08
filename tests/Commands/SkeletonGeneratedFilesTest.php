@@ -13,7 +13,7 @@ class SkeletonGeneratedFilesTest extends SkeletonCommandTest
         $output = $this->commandTester->getDisplay();
 
         // Check for console command output
-        $this->assertContains('Your Laravel Package Skeleton is ready!', $output);
+        $this->assertStringContainsString('Your Laravel Package Skeleton is ready!', $output);
 
         // Check that generated files are exist on /src directory
         $this->assertFileExists($this->package_path . '/src/Support/helpers.php');
@@ -41,7 +41,7 @@ class SkeletonGeneratedFilesTest extends SkeletonCommandTest
         $output = $this->commandTester->getDisplay();
 
         // Check for console command output
-        $this->assertContains('Your Laravel Package Skeleton is ready!', $output);
+        $this->assertStringContainsString('Your Laravel Package Skeleton is ready!', $output);
 
         // Expect "PackageException" will thrown if same command executed.
         $this->expectException(\CleaniqueCoders\Console\Exceptions\PackageException::class);

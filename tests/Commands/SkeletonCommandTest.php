@@ -16,7 +16,7 @@ abstract class SkeletonCommandTest extends TestCase
     protected $commandTester;
     protected $packageDirectory;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -29,7 +29,7 @@ abstract class SkeletonCommandTest extends TestCase
         $this->createPackage();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         exec('rm -rf ' . $this->vendor_path);
 
