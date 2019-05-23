@@ -1,69 +1,14 @@
 language: php
-sudo: false
 
 php:
   - 7.2
-  - 7.3
-
-env:
-  global:
-    - setup=basic
-    - coverage=no
-  matrix:
-    - laravel=5.6.*
-    - laravel=5.7.*
-    - laravel=5.8.*
-    - laravel=dev-master
-    - setup=lowest laravel=5.6.*
-    - setup=lowest laravel=5.7.*
-    - setup=lowest laravel=5.8.*
-    - setup=lowest laravel=dev-master
-    - setup=stable laravel=5.6.*
-    - setup=stable laravel=5.7.*
-    - setup=stable laravel=5.8.*
-    - setup=stable laravel=dev-master
-
-before_install:
-  - composer config discard-changes true
 
 before_script:
-  - composer require "laravel/framework=${laravel}" --prefer-dist --no-interaction --no-suggest
-  - if [[ $setup = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --no-suggest --prefer-stable; fi
-  - if [[ $setup = 'lowest' ]]; then travis_retry composer update --prefer-dist --no-interaction --no-suggest --prefer-lowest --prefer-stable; fi
-  - if [[ $setup = 'coveralls' ]]; then travis_retry composer require "php-coveralls/php-coveralls=^2.1" --prefer-dist --no-interaction --no-suggest --dev; fi
+  - travis_retry composer install --prefer-dist --no-interaction
+
+cache:
+  directories:
+    - vendor
 
 script:
-  - if [[ $coverage = 'yes' ]]; then vendor/bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml; fi
-  - if [[ $coverage = 'no' ]]; then vendor/bin/phpunit -c phpunit.xml; fi
-
-after_script:
-  - if [[ $setup = 'coveralls' ]]; then php vendor/bin/php-coveralls -v; fi
-
-matrix:
-  include:
-    - php: 7.1
-      env: setup=basic laravel=5.6.*
-    - php: 7.1
-      env: setup=basic laravel=5.7.*
-    - php: 7.1
-      env: setup=basic laravel=5.8.*
-    - php: 7.1
-      env: setup=lowest laravel=5.6.*
-    - php: 7.1
-      env: setup=lowest laravel=5.7.*
-    - php: 7.1
-      env: setup=lowest laravel=5.8.*
-    - php: 7.1
-      env: setup=stable laravel=5.6.*
-    - php: 7.1
-      env: setup=stable laravel=5.7.*
-    - php: 7.1
-      env: setup=stable laravel=5.8.*
-    - php: 7.1
-      env: setup=coveralls coverage=yes laravel=5.6.*
-  allow_failures:
-    - env: laravel=dev-master
-    - env: setup=lowest laravel=dev-master
-    - env: setup=stable laravel=dev-master
-    - env: setup=coveralls coverage=yes laravel=5.6.*
-  fast_finish: true
+  - vendor/bin/phpunit  --testdox --verbose

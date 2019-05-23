@@ -37,12 +37,12 @@ class RootDirectoryFileContentTest extends SkeletonCommandTest
         }
     },
     "require": {
-        "php": ">=7.1",
-        "illuminate/support": "^5.5|^5.6"
+        "php": ">=7.2",
+        "illuminate/support": "^5.5|^5.6|^5.7|^5.8"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.5|^7.0",
-        "orchestra/testbench": "3.5.*|3.6.*"
+        "phpunit/phpunit": "^6.5|^7.0|^8.0",
+        "orchestra/testbench": "3.5.*|3.6.*|3.7.*|3.8.*"
     },
     "extra": {
         "laravel": {
