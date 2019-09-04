@@ -11,7 +11,10 @@ use Symfony\Component\Console\Command\Command;
 
 class Commander extends Command
 {
-    use ComposerTrait, ProjectTrait, QualifiedClassNameTrait, GitTrait;
+    use ComposerTrait;
+    use ProjectTrait;
+    use QualifiedClassNameTrait;
+    use GitTrait;
 
     /**
      * Filesystem.
