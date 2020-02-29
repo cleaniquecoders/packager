@@ -24,7 +24,7 @@ trait GitTrait
     public function gitCommitUpdateDependecies()
     {
         if ($this->gitInstalled()) {
-            exec('git add composer.locl && git commit -m "Upadate dependencies"');
+            exec('git add composer.lock && git commit -m "Upadate dependencies"');
         }
     }
 
