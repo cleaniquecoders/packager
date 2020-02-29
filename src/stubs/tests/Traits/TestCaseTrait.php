@@ -11,7 +11,7 @@ trait TestCaseTrait
     /**
      * Setup the test environment.
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         // $this->loadFactories();
@@ -24,12 +24,33 @@ trait TestCaseTrait
     /**
      * Do clean up on tear down.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // $this->cleanUp();
         parent::tearDown();
     }
 
+    /**
+     * Define environment setup.
+     *
+     * @param \Illuminate\Foundation\Application $app
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        // Setup default database to use sqlite :memory:
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
+    }
+
+    /**
+     * Load Factories
+     * 
+     * @return void
+     */
     public function loadFactories()
     {
         $this->withFactories(realpath(__DIR__ . '/../factories'));
