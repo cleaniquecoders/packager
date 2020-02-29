@@ -202,6 +202,7 @@ class MakeSkeletonCommand extends Commander
     {
         chdir($this->directory);
         $this->gitInit();
-        $this->composerInstall();
+        $this->composerUpdate();
+        $this->gitCommitUpdateDependecies();
     }
 }
