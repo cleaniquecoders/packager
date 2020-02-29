@@ -18,7 +18,7 @@ trait GitTrait
 
     /**
      * Commit composer.lock on update dependencies.
-     * 
+     *
      * @return void
      */
     public function gitCommitUpdateDependecies()
@@ -30,8 +30,6 @@ trait GitTrait
 
     /**
      * Check if git is installed.
-     *
-     * @return bool
      */
     public function gitInstalled(): bool
     {

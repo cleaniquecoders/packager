@@ -31,24 +31,8 @@ trait TestCaseTrait
     }
 
     /**
-     * Define environment setup.
+     * Load Factories.
      *
-     * @param \Illuminate\Foundation\Application $app
-     */
-    protected function getEnvironmentSetUp($app)
-    {
-        // Setup default database to use sqlite :memory:
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
-        ]);
-    }
-
-    /**
-     * Load Factories
-     * 
      * @return void
      */
     public function loadFactories()
@@ -145,6 +129,22 @@ trait TestCaseTrait
     public function truncateTable($table)
     {
         \DB::table($table)->truncate();
+    }
+
+    /**
+     * Define environment setup.
+     *
+     * @param \Illuminate\Foundation\Application $app
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        // Setup default database to use sqlite :memory:
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
     }
 
     ////////////////////////////////////////////////////////
