@@ -5,9 +5,9 @@ namespace CleaniqueCoders\Console\Traits;
 trait GitTrait
 {
     /**
-     * Get the composer command for the environment.
+     * Initiliase git repository.
      *
-     * @return string
+     * @return void
      */
     public function gitInit()
     {
@@ -17,11 +17,23 @@ trait GitTrait
     }
 
     /**
+     * Commit composer.lock on update dependencies.
+     * 
+     * @return void
+     */
+    public function gitCommitUpdateDependecies()
+    {
+        if ($this->gitInstalled()) {
+            exec('git add composer.locl && git commit -m "Upadate dependencies"');
+        }
+    }
+
+    /**
      * Check if git is installed.
      *
      * @return bool
      */
-    public function gitInstalled()
+    public function gitInstalled(): bool
     {
         return ! empty(exec('which git'));
     }
