@@ -1,7 +1,5 @@
 <?php
-
 ini_set('memory_limit','1024M');
-
 $finder = PhpCsFixer\Finder::create()
     ->notPath('bootstrap/cache')
     ->notPath('storage')

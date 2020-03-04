@@ -24,9 +24,6 @@ class MakeSkeletonCommand extends Commander
 
     /**
      * Execute the command.
-     *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -202,6 +199,7 @@ class MakeSkeletonCommand extends Commander
     {
         chdir($this->directory);
         $this->gitInit();
-        $this->composerInstall();
+        $this->composerUpdate();
+        $this->gitCommitUpdateDependecies();
     }
 }

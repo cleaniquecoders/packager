@@ -15,16 +15,16 @@ trait UserTrait
     {
         $now = \Carbon\Carbon::now();
         \DB::table('users')->insert([
-            'name'       => 'OpenPayroll',
-            'email'      => 'hello@open-payroll.com',
+            'name'       => 'PHPUnit',
+            'email'      => 'hello@phpunit.com',
             'password'   => \Hash::make('456'),
             'created_at' => $now,
             'updated_at' => $now,
         ]);
 
         \DB::table('users')->insert([
-            'name'       => 'OpenPayroll',
-            'email'      => 'hi@open-payroll.com',
+            'name'       => 'PHPUnit',
+            'email'      => 'hi@phpunit.com',
             'password'   => \Hash::make('456'),
             'created_at' => $now,
             'updated_at' => $now,
@@ -50,11 +50,11 @@ trait UserTrait
         $this->seedUsers();
 
         $user = \DB::table('users')->where('id', '=', 2)->first();
-        $this->assertEquals('hi@open-payroll.com', $user->email);
+        $this->assertEquals('hi@phpunit.com', $user->email);
         $this->assertTrue(\Hash::check('456', $user->password));
 
         $user = \DB::table('users')->where('id', '=', 1)->first();
-        $this->assertEquals('hello@open-payroll.com', $user->email);
+        $this->assertEquals('hello@phpunit.com', $user->email);
         $this->assertTrue(\Hash::check('456', $user->password));
     }
 }
