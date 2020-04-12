@@ -64,6 +64,8 @@ class MakeSkeletonCommand extends Commander
 
         $output->writeln('<info>Your package directory name: ' . $directory . '</info>');
         $output->writeln('<comment>Your Laravel Package Skeleton is ready!</comment>');
+
+        return 0;
     }
 
     private function replace($these, $withThese, $file)
